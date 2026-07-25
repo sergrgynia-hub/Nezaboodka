@@ -5,6 +5,14 @@ const { askGigaChat } = require('./gigachat');
 
 const token = process.env.TELEGRAM_TOKEN;
 const bot = new Telegraf(token);
+const MY_ID = process.env.MY_TELEGRAM_ID;
+
+bot.use((ctx, next) => {
+  if (String(ctx.from.id) !== MY_ID) {
+    return ctx.reply('Извини, этот бот приватный 🙏');
+  }
+  return next();
+});
 
 bot.on('text', async (ctx) => {
   const text = ctx.message.text;
