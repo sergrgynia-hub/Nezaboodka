@@ -41,7 +41,11 @@ bot.on('text', async (ctx) => {
   }
 });
 
-bot.launch();
+bot.launch().catch((err) => {
+  console.error('ОШИБКА ЗАПУСКА БОТА:', err.message);
+  console.error('Токен (длина):', token ? token.length : 'НЕТ ТОКЕНА');
+  console.error('Токен (значение):', JSON.stringify(token));
+});
 console.log('Бот запущен и слушает сообщения...');
 
 // Корректное завершение при Control+C
