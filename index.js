@@ -4,8 +4,7 @@ const { Telegraf } = require('telegraf');
 const { askGigaChat } = require('./gigachat');
 
 const token = process.env.TELEGRAM_TOKEN;
-console.log('DEBUG длина токена:', token ? token.length : 'undefined');
-console.log('DEBUG токен в JSON:', JSON.stringify(token));
+console.log('ЖЖЖ_ПРОВЕРКА_12345', 'длина:', token ? token.length : 'НЕТ ТОКЕНА', 'значение:', JSON.stringify(token));
 const bot = new Telegraf(token);
 
 bot.on('text', async (ctx) => {
