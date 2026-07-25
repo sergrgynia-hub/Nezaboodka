@@ -5,7 +5,9 @@ const { google } = require('googleapis');
 const SCOPES = ['https://www.googleapis.com/auth/calendar.events'];
 const TOKEN_PATH = 'token.json';
 
-const credentials = JSON.parse(fs.readFileSync('credentials.json'));
+const credentials = process.env.GOOGLE_CREDENTIALS
+  ? JSON.parse(process.env.GOOGLE_CREDENTIALS)
+  : JSON.parse(fs.readFileSync('credentials.json'));
 const { client_secret, client_id, redirect_uris } = credentials.installed;
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 

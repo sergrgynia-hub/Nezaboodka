@@ -1,11 +1,15 @@
 const fs = require('fs');
 const { google } = require('googleapis');
 
-const credentials = JSON.parse(fs.readFileSync('credentials.json'));
+const credentials = process.env.GOOGLE_CREDENTIALS
+  ? JSON.parse(process.env.GOOGLE_CREDENTIALS)
+  : JSON.parse(fs.readFileSync('credentials.json'));
 const { client_secret, client_id, redirect_uris } = credentials.installed;
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
-const token = JSON.parse(fs.readFileSync('token.json'));
+const token = process.env.GOOGLE_TOKEN
+  ? JSON.parse(process.env.GOOGLE_TOKEN)
+  : JSON.parse(fs.readFileSync('token.json'));
 oAuth2Client.setCredentials(token);
 
 const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
