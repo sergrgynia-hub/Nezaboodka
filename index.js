@@ -1,8 +1,11 @@
+require('dotenv').config();
 const { createCalendarEvent } = require('./calendar');
 const { Telegraf } = require('telegraf');
 const { askGigaChat } = require('./gigachat');
 
-const token = '8688804075:AAEFeA4zIqhdOCtPxYq2DYx4fJglVJHQjGk';
+const token = process.env.TELEGRAM_TOKEN;
+console.log('DEBUG длина токена:', token ? token.length : 'undefined');
+console.log('DEBUG токен в JSON:', JSON.stringify(token));
 const bot = new Telegraf(token);
 
 bot.on('text', async (ctx) => {
