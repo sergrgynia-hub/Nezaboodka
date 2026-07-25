@@ -40,7 +40,7 @@ async function getToken() {
 async function askGigaChat(userMessage) {
   const token = await getToken();
   const now = new Date();
-const todayDateTime = now.toISOString().slice(0, 16).replace('T', ' '); // например 2026-07-24 20:37
+  const todayDateTime = now.toLocaleString('sv-SE', { timeZone: 'Asia/Krasnoyarsk' }).slice(0, 16);
 
   const response = await axios.post(
     'https://gigachat.devices.sberbank.ru/api/v1/chat/completions',
