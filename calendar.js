@@ -15,8 +15,13 @@ oAuth2Client.setCredentials(token);
 const calendar = google.calendar({ version: 'v3', auth: oAuth2Client });
 
 async function createCalendarEvent({ title, date, time }) {
-  const startDate = new Date(`${date}T${time}:00`);
-  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 час по умолчанию
+  const [year, month, day] = date.split('-').map(Number);
+  const [hour, minute] = time.split(':').map(Number);
+
+  // Красноярск = UTC+7 круглый год, без перехода на летнее время
+  const utcMs = Date.UTC(year, month - 1, day, hour - 7, minute);
+  const startDate = new Date(utcMs);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
 
   const event = {
     summary: title,
