@@ -1,9 +1,9 @@
 require('dotenv').config();
 const axios = require('axios');
-const { createCalendarEvent } = require('./calendar');
 const { Telegraf } = require('telegraf');
 const { askGigaChat } = require('./gigachat');
 const { recognizeSpeech } = require('./speech');
+const { addReminder, startScheduler } = require('./reminders');
 
 const token = process.env.TELEGRAM_TOKEN;
 const bot = new Telegraf(token);
@@ -31,10 +31,10 @@ async function processMessage(ctx, text) {
 
       console.log('Данные события:', args);
 
-      const eventLink = await createCalendarEvent(args);
+      addReminder(args);
 
       await ctx.reply(
-        `Готово! Событие создано:\n📌 ${args.title}\n📅 ${args.date}\n🕐 ${args.time}\n\n🔗 ${eventLink}`
+        `Готово! Напомню за 15 минут до:\n📌 ${args.title}\n📅 ${args.date}\n🕐 ${args.time}`
       );
     } else {
       await ctx.reply(reply.content);
@@ -75,6 +75,9 @@ bot.on('voice', async (ctx) => {
 bot.launch().catch((err) => {
   console.error('ОШИБКА ЗАПУСКА БОТА:', err.message);
 });
+
+startScheduler(bot, MY_ID);
+
 console.log('Бот запущен и слушает сообщения...');
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
